@@ -3,13 +3,12 @@
 import { useState, useEffect, useCallback } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { ProductCard } from "@/components/product-card"
-import { getProductsByCategory, products } from "@/lib/utils"
+import { fetchProductsFromSupabase, Product } from "@/lib/utils"
 import { SearchFilter } from "@/components/search-filter"
 
 export default function ProductsPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
-
 
   const categoryParam = searchParams.get("category")
   const queryParam = searchParams.get("q")
@@ -17,31 +16,50 @@ export default function ProductsPage() {
   const minParam = searchParams.get("min")
   const maxParam = searchParams.get("max")
 
+  const [products, setProducts] = useState<Product[]>([])
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  const [filteredProducts, setFilteredProducts] = useState(products)
+  // Fetch products from Supabase on mount
+  useEffect(() => {
+    setLoading(true)
+    setError(null)
+    fetchProductsFromSupabase()
+      .then((data) => {
+        setProducts(data)
+        setLoading(false)
+      })
+      .catch((err) => {
+        setError("Failed to load products.")
+        setLoading(false)
+      })
+  }, [])
 
-  
-  const minPrice = Math.min(...products.map((product) => product.price))
-  const maxPrice = Math.max(...products.map((product) => product.price))
+  // Compute min/max price and categories from fetched products
+  const minPrice = products.length > 0 ? Math.min(...products.map((product) => product.price)) : 0
+  const maxPrice = products.length > 0 ? Math.max(...products.map((product) => product.price)) : 0
+  const categories = [
+    "all",
+    ...Array.from(new Set(products.map((product) => product.category))),
+  ]
 
-  const categories = ["all", ...new Set(products.map((product) => product.category))]
-
+  // Filtering and sorting logic
   useEffect(() => {
     let result = products
 
-   
     if (categoryParam && categoryParam !== "all") {
-      result = getProductsByCategory(categoryParam)
+      result = result.filter((product) => product.category === categoryParam)
     }
 
-   
     if (queryParam) {
       const query = queryParam.toLowerCase()
       result = result.filter(
-        (product) => product.name.toLowerCase().includes(query) || product.description.toLowerCase().includes(query),
+        (product) =>
+          product.name.toLowerCase().includes(query) ||
+          product.description.toLowerCase().includes(query),
       )
     }
-
 
     if (minParam) {
       const min = Number.parseFloat(minParam)
@@ -62,7 +80,7 @@ export default function ProductsPage() {
           result = [...result].sort((a, b) => b.price - a.price)
           break
         case "newest":
-          
+          // Assuming products are sorted by created_at descending from Supabase, reverse for newest
           result = [...result].reverse()
           break
         default:
@@ -71,8 +89,7 @@ export default function ProductsPage() {
     }
 
     setFilteredProducts(result)
-  }, [categoryParam, queryParam, sortParam, minParam, maxParam])
-
+  }, [products, categoryParam, queryParam, sortParam, minParam, maxParam])
 
   const handleSearch = useCallback((query: string) => {
     updateUrl({ q: query || null })
@@ -132,7 +149,6 @@ export default function ProductsPage() {
     <div className="container py-8 px-4 md:px-6">
       <h1 className="text-3xl font-bold mb-6">Products</h1>
 
-     
       <div className="mb-8">
         <SearchFilter
           onSearch={handleSearch}
@@ -146,8 +162,15 @@ export default function ProductsPage() {
         />
       </div>
 
-     
-      {filteredProducts.length > 0 ? (
+      {loading ? (
+        <div className="text-center py-12">
+          <h3 className="text-lg font-medium">Loading products...</h3>
+        </div>
+      ) : error ? (
+        <div className="text-center py-12">
+          <h3 className="text-lg font-medium text-red-500">{error}</h3>
+        </div>
+      ) : filteredProducts.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
