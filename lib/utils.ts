@@ -165,8 +165,11 @@ export function getProductsByCategory(category: string): Product[] {
 
 
 export function formatSolPrice(price: number): string {
-  return `${price.toFixed(3)} SOL`
+  // Format as USD with exactly 2 decimals, e.g. $2.99 USDC
+  const fixed = Number(price).toFixed(2);
+  return `${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(fixed))} USDC`;
 }
+
 
 export async function fetchProductsFromSupabase() {
   // Fetch products with seller info (join users table)
