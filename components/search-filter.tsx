@@ -158,8 +158,8 @@ export function SearchFilter({
                   onValueChange={(value) => setPriceRange(value as [number, number])}
                 />
                 <div className="flex items-center justify-between">
-                  <p className="text-sm">{priceRange[0].toFixed(3)} SOL</p>
-                  <p className="text-sm">{priceRange[1].toFixed(3)} SOL</p>
+                  <p className="text-sm">${priceRange[0].toFixed(2)} USDC</p>
+                  <p className="text-sm">${priceRange[1].toFixed(2)} USDC</p>
                 </div>
               </div>
 
@@ -198,7 +198,15 @@ export function SearchFilter({
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="newest" id="newest" />
-                    <Label htmlFor="newest">Newest</Label>
+                    <Label htmlFor="newest">Newest First</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="name-a-z" id="name-a-z" />
+                    <Label htmlFor="name-a-z">Name: A to Z</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="name-z-a" id="name-z-a" />
+                    <Label htmlFor="name-z-a">Name: Z to A</Label>
                   </div>
                 </RadioGroup>
               </div>

@@ -38,8 +38,10 @@ export function Navbar() {
           <nav className="hidden md:flex gap-6">
             <Link href="/" className="text-sm font-medium transition-colors hover:text-primary">Home</Link>
             <Link href="/products" className="text-sm font-medium transition-colors hover:text-primary">Products</Link>
-            <Link href="/dashboard" className="text-sm font-medium transition-colors hover:text-primary">Dashboard</Link>
-            <Link href="/seller/signup" className="text-sm font-medium transition-colors hover:text-primary">Become a Seller</Link>
+            <Link href="/orders" className="text-sm font-medium transition-colors hover:text-primary">Orders</Link>
+            <Link href="/vendor/register" className="text-sm font-medium transition-colors hover:text-primary">Become a Vendor</Link>
+            <Link href="/vendor/dashboard" className="text-sm font-medium transition-colors hover:text-primary">Vendor Dashboard</Link>
+            <Link href="/admin" className="text-sm font-medium transition-colors hover:text-primary">Admin</Link>
           </nav>
         </div>
 
@@ -70,8 +72,10 @@ export function Navbar() {
         <nav className="flex flex-col space-y-3 pb-3">
           <Link href="/" className="text-sm font-medium transition-colors hover:text-primary" onClick={() => setIsMenuOpen(false)}>Home</Link>
           <Link href="/products" className="text-sm font-medium transition-colors hover:text-primary" onClick={() => setIsMenuOpen(false)}>Products</Link>
-          <Link href="/dashboard" className="text-sm font-medium transition-colors hover:text-primary" onClick={() => setIsMenuOpen(false)}>Dashboard</Link>
-          <Link href="/seller/signup" className="text-sm font-medium transition-colors hover:text-primary" onClick={() => setIsMenuOpen(false)}>Become a Seller</Link>
+          <Link href="/orders" className="text-sm font-medium transition-colors hover:text-primary" onClick={() => setIsMenuOpen(false)}>Orders</Link>
+          <Link href="/vendor/register" className="text-sm font-medium transition-colors hover:text-primary" onClick={() => setIsMenuOpen(false)}>Become a Vendor</Link>
+          <Link href="/vendor/dashboard" className="text-sm font-medium transition-colors hover:text-primary" onClick={() => setIsMenuOpen(false)}>Vendor Dashboard</Link>
+          <Link href="/admin" className="text-sm font-medium transition-colors hover:text-primary" onClick={() => setIsMenuOpen(false)}>Admin</Link>
         </nav>
       </div>
     </header>

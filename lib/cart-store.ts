@@ -2,7 +2,7 @@
 
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
-import type { CartItem, Product } from "@/lib/utils"
+import type { CartItem, Product } from "@/lib/types"
 
 interface CartState {
   items: CartItem[]

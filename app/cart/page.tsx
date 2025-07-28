@@ -13,9 +13,11 @@ import { useCartStore } from "@/lib/cart-store"
 import { formatSolPrice } from "@/lib/utils"
 import { useSolanaPay } from "@/lib/solana-pay"
 import { useToast } from "@/components/ui/use-toast"
+import { OrderService } from "@/lib/order-service"
+import { CreateOrderData } from "@/lib/types"
 
 export default function CartPage() {
-  const { connected } = useWallet()
+  const { connected, publicKey } = useWallet()
   const { items, removeItem, updateQuantity, clearCart, getTotalPrice } = useCartStore()
   const { makePayment } = useSolanaPay()
   const { toast } = useToast()
@@ -54,13 +56,38 @@ export default function CartPage() {
       const success = await makePayment(totalPrice, memo)
 
       if (success) {
-        
-        clearCart()
+        // Create order data
+        const orderData: CreateOrderData = {
+          user_wallet: publicKey?.toString() || "",
+          items: items.map((item) => ({
+            product_id: item.product.id,
+            product_name: item.product.name,
+            quantity: item.quantity,
+            price: item.product.price,
+            image: item.product.image,
+            vendor_id: item.product.seller_id,
+            vendor_name: item.product.vendor_name,
+          })),
+          total_amount: totalPrice,
+          transaction_signature: "", // Will be updated if we can get the signature
+        }
 
-        toast({
-          title: "Purchase successful!",
-          description: "Thank you for your purchase. Your items will be delivered soon.",
-        })
+        // Store order in Supabase
+        const order = await OrderService.createOrder(orderData)
+
+        if (order) {
+          clearCart()
+          toast({
+            title: "Purchase successful!",
+            description: `Order #${order.id} has been created. Your items will be delivered soon.`,
+          })
+        } else {
+          toast({
+            title: "Order creation failed",
+            description: "Payment was successful but there was an error creating your order. Please contact support.",
+            variant: "destructive",
+          })
+        }
       }
     } catch (error) {
       console.error("Checkout error:", error)

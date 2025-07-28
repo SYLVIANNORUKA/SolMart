@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useWallet } from "@solana/wallet-adapter-react"
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui"
 import { useAuthStore } from "@/lib/auth-store"
@@ -12,73 +12,47 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { OrderStatus } from "@/components/order-status"
 import { formatSolPrice } from "@/lib/utils"
+import { OrderService } from "@/lib/order-service"
+import { Order } from "@/lib/types"
 import { Search, ShoppingBag } from "lucide-react"
+import { useToast } from "@/components/ui/use-toast"
 
-
-const orders = [
-  {
-    id: "ORD-001",
-    date: "2023-05-15",
-    total: 0.05,
-    status: "delivered" as const,
-    items: [
-      { id: "1", name: "Organic Apples", quantity: 2, price: 0.005 },
-      { id: "4", name: "Organic Milk", quantity: 1, price: 0.003 },
-    ],
-    trackingNumber: "TRK123456789",
-    estimatedDelivery: "May 18, 2023",
-  },
-  {
-    id: "ORD-002",
-    date: "2023-05-20",
-    total: 0.08,
-    status: "shipped" as const,
-    items: [
-      { id: "2", name: "Wireless Earbuds", quantity: 1, price: 0.05 },
-      { id: "7", name: "Fresh Bread", quantity: 2, price: 0.002 },
-    ],
-    trackingNumber: "TRK987654321",
-    estimatedDelivery: "May 25, 2023",
-  },
-  {
-    id: "ORD-003",
-    date: "2023-05-22",
-    total: 0.03,
-    status: "processing" as const,
-    items: [
-      { id: "3", name: "Cotton T-Shirt", quantity: 1, price: 0.02 },
-      { id: "7", name: "Fresh Bread", quantity: 1, price: 0.002 },
-    ],
-    estimatedDelivery: "May 28, 2023",
-  },
-  {
-    id: "ORD-004",
-    date: "2023-05-25",
-    total: 0.12,
-    status: "pending" as const,
-    items: [
-      { id: "5", name: "Smart Watch", quantity: 1, price: 0.08 },
-      { id: "9", name: "Denim Jeans", quantity: 1, price: 0.03 },
-    ],
-    estimatedDelivery: "May 30, 2023",
-  },
-  {
-    id: "ORD-005",
-    date: "2023-05-10",
-    total: 0.07,
-    status: "cancelled" as const,
-    items: [
-      { id: "6", name: "Running Shoes", quantity: 1, price: 0.04 },
-      { id: "7", name: "Fresh Bread", quantity: 2, price: 0.002 },
-    ],
-  },
-]
 
 export default function OrdersPage() {
-  const { connected } = useWallet()
+  const { connected, publicKey } = useWallet()
   const { isAuthenticated } = useAuthStore()
+  const { toast } = useToast()
+  const [orders, setOrders] = useState<Order[]>([])
+  const [filteredOrders, setFilteredOrders] = useState<Order[]>([])
+  const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
-  const [filteredOrders, setFilteredOrders] = useState(orders)
+
+  useEffect(() => {
+    if (connected && publicKey && isAuthenticated) {
+      loadUserOrders()
+    }
+  }, [connected, publicKey, isAuthenticated])
+
+  useEffect(() => {
+    filterOrders()
+  }, [orders, searchQuery])
+
+  const loadUserOrders = async () => {
+    setLoading(true)
+    try {
+      const userOrders = await OrderService.getUserOrders(publicKey!.toString())
+      setOrders(userOrders)
+    } catch (error) {
+      console.error("Error loading orders:", error)
+      toast({
+        title: "Error loading orders",
+        description: "Failed to load your orders. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -91,7 +65,22 @@ export default function OrdersPage() {
     const query = searchQuery.toLowerCase()
     const filtered = orders.filter(
       (order) =>
-        order.id.toLowerCase().includes(query) || order.items.some((item) => item.name.toLowerCase().includes(query)),
+        order.id.toLowerCase().includes(query) || order.items.some((item) => item.product_name.toLowerCase().includes(query)),
+    )
+
+    setFilteredOrders(filtered)
+  }
+
+  const filterOrders = () => {
+    if (!searchQuery.trim()) {
+      setFilteredOrders(orders)
+      return
+    }
+
+    const query = searchQuery.toLowerCase()
+    const filtered = orders.filter(
+      (order) =>
+        order.id.toLowerCase().includes(query) || order.items.some((item) => item.product_name.toLowerCase().includes(query)),
     )
 
     setFilteredOrders(filtered)
@@ -152,10 +141,10 @@ export default function OrdersPage() {
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div>
                     <CardTitle>Order #{order.id}</CardTitle>
-                    <CardDescription>Placed on {order.date}</CardDescription>
+                    <CardDescription>Placed on {new Date(order.created_at).toLocaleDateString()}</CardDescription>
                   </div>
                   <div className="text-right">
-                    <p className="font-medium">{formatSolPrice(order.total)}</p>
+                    <p className="font-medium">{formatSolPrice(order.total_amount)}</p>
                     <p className="text-xs text-muted-foreground">{order.items.length} items</p>
                   </div>
                 </div>
@@ -165,17 +154,17 @@ export default function OrdersPage() {
                   <h3 className="font-medium mb-2">Order Status</h3>
                   <OrderStatus
                     status={order.status}
-                    estimatedDelivery={order.estimatedDelivery}
-                    trackingNumber={order.trackingNumber}
+                    estimatedDelivery={order.estimated_delivery}
+                    trackingNumber={order.tracking_number}
                   />
                 </div>
                 <div>
                   <h3 className="font-medium mb-2">Items</h3>
                   <ul className="space-y-2">
-                    {order.items.map((item) => (
-                      <li key={item.id} className="flex justify-between">
+                    {order.items.map((item, index) => (
+                      <li key={index} className="flex justify-between">
                         <div>
-                          <p>{item.name}</p>
+                          <p>{item.product_name}</p>
                           <p className="text-sm text-muted-foreground">Quantity: {item.quantity}</p>
                         </div>
                         <p className="font-medium">{formatSolPrice(item.price * item.quantity)}</p>
