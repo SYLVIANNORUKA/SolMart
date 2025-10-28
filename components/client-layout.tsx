@@ -5,6 +5,7 @@ import { WalletContextProvider } from "@/components/wallet-provider"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { Toaster } from "@/components/ui/toaster"
+import { ChatAssistant } from "@/components/chat-assistant"
 
 export default function ClientLayout({
   children,
@@ -28,6 +29,7 @@ export default function ClientLayout({
         <main className="flex-1">{children}</main>
         <Footer />
       </div>
+      <ChatAssistant />
       <Toaster />
     </WalletContextProvider>
   )
