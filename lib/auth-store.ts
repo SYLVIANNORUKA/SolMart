@@ -79,7 +79,7 @@ export const useAuthStore = create<AuthState>()(
       },
     }),
     {
-      name: "solmart-auth",
+      name: "orbita-auth",
     },
   ),
 )

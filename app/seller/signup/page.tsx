@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { useWallet } from "@solana/wallet-adapter-react"
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui"
+import { useWallet } from "@/components/wallet-provider"
+import { WalletMultiButton } from "@/components/wallet-provider"
 import { useAuthStore } from "@/lib/auth-store"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"

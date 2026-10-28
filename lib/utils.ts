@@ -1,6 +1,5 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { supabase } from "@/lib/supabase"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -164,43 +163,7 @@ export function getProductsByCategory(category: string): Product[] {
 }
 
 
-export function formatSolPrice(price: number): string {
-  // Format as USD with exactly 2 decimals, e.g. $2.99 USDC
-  const fixed = Number(price).toFixed(2);
-  return `${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(fixed))} USDC`;
-}
-
-
-export async function fetchProductsFromSupabase() {
-  // Fetch products with seller info (join users table)
-  const { data: products, error } = await supabase
-    .from("products")
-    .select(`
-      id,
-      name,
-      description,
-      price_usdc,
-      image_url,
-      category,
-      seller_id,
-      seller:users(id, username)
-    `)
-
-  if (error) throw error
-  if (!products) return []
-
-  // Map to UI Product type
-  return products.map((p: any) => ({
-    id: p.id,
-    name: p.name,
-    description: p.description,
-    price: Number(p.price_usdc), // You may want to convert USDC to SOL if needed
-    image: p.image_url,
-    category: p.category,
-    seller: {
-      id: p.seller?.id || p.seller_id,
-      name: p.seller?.username || "Unknown",
-      rating: 5, // Placeholder, as rating is not in schema
-    },
-  }))
+export function formatPrice(price: number): string {
+  // Format with exactly 2 decimals, e.g. 2.99 XLM
+  return `${Number(price).toFixed(2)} XLM`;
 }

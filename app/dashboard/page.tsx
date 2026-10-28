@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { useWallet } from "@solana/wallet-adapter-react"
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui"
+import { useWallet } from "@/components/wallet-provider"
+import { WalletMultiButton } from "@/components/wallet-provider"
 import { useAuthStore } from "@/lib/auth-store"
 import { AuthForm } from "@/components/auth-form"
 import { Button } from "@/components/ui/button"
@@ -22,7 +22,7 @@ import {
   Cell,
   Legend,
 } from "recharts"
-import { formatSolPrice, products } from "@/lib/utils"
+import { formatPrice, products } from "@/lib/utils"
 import { Package, ShoppingCart, Users, DollarSign, Plus, Edit, Trash2 } from "lucide-react"
 
 
@@ -68,7 +68,7 @@ export default function DashboardPage() {
     return (
       <div className="container py-16 max-w-md mx-auto text-center">
         <h1 className="text-2xl font-bold mb-6">Connect Your Wallet</h1>
-        <p className="text-muted-foreground mb-8">Please connect your Phantom wallet to access the seller dashboard.</p>
+        <p className="text-muted-foreground mb-8">Please connect your Freighter wallet to access the seller dashboard.</p>
         <WalletMultiButton className="!bg-primary hover:!bg-primary/90 rounded-md mx-auto !justify-center" />
       </div>
     )
@@ -120,7 +120,7 @@ export default function DashboardPage() {
                 <DollarSign className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{formatSolPrice(totalSales)}</div>
+                <div className="text-2xl font-bold">{formatPrice(totalSales)}</div>
                 <p className="text-xs text-muted-foreground">+20.1% from last month</p>
               </CardContent>
             </Card>
@@ -161,7 +161,7 @@ export default function DashboardPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Sales Overview</CardTitle>
-                <CardDescription>Monthly sales in SOL for the current year</CardDescription>
+                <CardDescription>Monthly sales in XLM for the current year</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="h-[300px]">
@@ -170,7 +170,7 @@ export default function DashboardPage() {
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
                       <YAxis />
-                      <Tooltip formatter={(value) => [`${value} SOL`, "Sales"]} />
+                      <Tooltip formatter={(value) => [`${value} XLM`, "Sales"]} />
                       <Bar dataKey="sales" fill="#4B5320" />
                     </BarChart>
                   </ResponsiveContainer>
@@ -233,7 +233,7 @@ export default function DashboardPage() {
                       <TableCell className="font-medium">{order.id}</TableCell>
                       <TableCell>{order.date}</TableCell>
                       <TableCell>{order.customer}</TableCell>
-                      <TableCell>{formatSolPrice(order.total)}</TableCell>
+                      <TableCell>{formatPrice(order.total)}</TableCell>
                       <TableCell>
                         <span
                           className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
@@ -283,7 +283,7 @@ export default function DashboardPage() {
                       <TableRow key={product.id}>
                         <TableCell className="font-medium">{product.name}</TableCell>
                         <TableCell className="capitalize">{product.category}</TableCell>
-                        <TableCell>{formatSolPrice(product.price)}</TableCell>
+                        <TableCell>{formatPrice(product.price)}</TableCell>
                         <TableCell>
                           <div className="flex gap-2">
                             <Button variant="ghost" size="icon">
@@ -334,7 +334,7 @@ export default function DashboardPage() {
                       <TableCell className="font-medium">{order.id}</TableCell>
                       <TableCell>{order.date}</TableCell>
                       <TableCell>{order.customer}</TableCell>
-                      <TableCell>{formatSolPrice(order.total)}</TableCell>
+                      <TableCell>{formatPrice(order.total)}</TableCell>
                       <TableCell>
                         <span
                           className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${

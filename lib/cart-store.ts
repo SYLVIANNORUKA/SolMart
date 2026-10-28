@@ -64,7 +64,7 @@ export const useCartStore = create<CartState>()(
       },
     }),
     {
-      name: "solmart-cart",
+      name: "orbita-cart",
     },
   ),
 )

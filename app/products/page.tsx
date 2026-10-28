@@ -24,7 +24,7 @@ export default function ProductsPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  // Fetch products from Supabase on mount
+  // Fetch products on mount
   useEffect(() => {
     const loadProducts = async () => {
       setLoading(true)
@@ -168,7 +168,7 @@ export default function ProductsPage() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Marketplace</h1>
         <p className="text-muted-foreground">
-          Discover all products from vendors across the Solana network
+          Discover all products from vendors across the Stellar network
         </p>
       </div>
 

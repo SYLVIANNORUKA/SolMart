@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { useWallet } from "@solana/wallet-adapter-react"
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui"
+import { useWallet } from "@/components/wallet-provider"
+import { WalletMultiButton } from "@/components/wallet-provider"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -152,7 +152,7 @@ export default function VendorRegistrationPage() {
         </div>
         <h1 className="text-2xl font-bold mb-6">Already a Vendor</h1>
         <p className="text-muted-foreground mb-8">
-          You are already registered as a vendor on SolMart.
+          You are already registered as a vendor on Orbita.
         </p>
         <div className="space-y-4">
           <Button asChild className="w-full">
@@ -174,7 +174,7 @@ export default function VendorRegistrationPage() {
         </div>
         <h1 className="text-3xl font-bold mb-2">Become a Vendor</h1>
         <p className="text-muted-foreground">
-          Join SolMart as a vendor and start selling your products to customers worldwide.
+          Join Orbita as a vendor and start selling your products to customers worldwide.
         </p>
       </div>
 

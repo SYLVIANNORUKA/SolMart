@@ -11,8 +11,8 @@ import ClientLayout from "@/components/client-layout"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "SolMart - Decentralized Supermarket",
-  description: "Shop with SOL in our decentralized supermarket",
+  title: "Orbita - Decentralized Supermarket",
+  description: "Shop with XLM in our decentralized supermarket",
   generator: 'v0.dev'
 }
 

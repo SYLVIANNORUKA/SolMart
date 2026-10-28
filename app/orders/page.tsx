@@ -3,15 +3,15 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
-import { useWallet } from "@solana/wallet-adapter-react"
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui"
+import { useWallet } from "@/components/wallet-provider"
+import { WalletMultiButton } from "@/components/wallet-provider"
 import { useAuthStore } from "@/lib/auth-store"
 import { AuthForm } from "@/components/auth-form"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { OrderStatus } from "@/components/order-status"
-import { formatSolPrice } from "@/lib/utils"
+import { formatPrice } from "@/lib/utils"
 import { OrderService } from "@/lib/order-service"
 import { Order } from "@/lib/types"
 import { Search, ShoppingBag } from "lucide-react"
@@ -90,7 +90,7 @@ export default function OrdersPage() {
     return (
       <div className="container py-16 max-w-md mx-auto text-center">
         <h1 className="text-2xl font-bold mb-6">Connect Your Wallet</h1>
-        <p className="text-muted-foreground mb-8">Please connect your Phantom wallet to view your orders.</p>
+        <p className="text-muted-foreground mb-8">Please connect your Freighter wallet to view your orders.</p>
         <WalletMultiButton className="!bg-primary hover:!bg-primary/90 rounded-md mx-auto !justify-center" />
       </div>
     )
@@ -144,7 +144,7 @@ export default function OrdersPage() {
                     <CardDescription>Placed on {new Date(order.created_at).toLocaleDateString()}</CardDescription>
                   </div>
                   <div className="text-right">
-                    <p className="font-medium">{formatSolPrice(order.total_amount)}</p>
+                    <p className="font-medium">{formatPrice(order.total_amount)}</p>
                     <p className="text-xs text-muted-foreground">{order.items.length} items</p>
                   </div>
                 </div>
@@ -167,7 +167,7 @@ export default function OrdersPage() {
                           <p>{item.product_name}</p>
                           <p className="text-sm text-muted-foreground">Quantity: {item.quantity}</p>
                         </div>
-                        <p className="font-medium">{formatSolPrice(item.price * item.quantity)}</p>
+                        <p className="font-medium">{formatPrice(item.price * item.quantity)}</p>
                       </li>
                     ))}
                   </ul>

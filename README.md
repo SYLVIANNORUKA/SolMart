@@ -1,17 +1,13 @@
-## 🛒 SolMart — Decentralized Supermarket on Solana
+## 🛒 Orbita — Decentralized Supermarket on Stellar
 
-SolMart is a modern decentralized e-commerce platform where users can buy and sell real-world products using **USDC via Solana Pay**, connected through their **Phantom wallet**. The platform uses **Supabase** as its backend for product data, user authentication, and order management — no mocks, no middlemen.
+Orbita is a modern decentralized e-commerce platform where users can buy and sell real-world products using **XLM on the Stellar network**, connected through their **Freighter wallet**. The backend (products, vendors, and orders) is not built yet — the data services in `lib/` currently return empty results and are marked with `TODO`s where the backend will connect.
 
 
 ## 🚀 Features
 
 - Clean, responsive design built with **Next.js**, **TypeScript**, and **Tailwind CSS**
-- **Phantom wallet integration** via `@solana/wallet-adapter`
-- **Solana Pay** support for real-time **USDC payments** on **Solana Devnet**
-- **Supabase backend** for:
-  - User authentication (email/password)
-  - Live product listing and management
-  - Real-time order tracking and storage
+- **Freighter wallet integration** via `@stellar/freighter-api`
+- **Stellar** support for real-time **XLM payments** on **Stellar Testnet** via `@stellar/stellar-sdk`
 - Categories: **Groceries**, **Electronics**, **Fashion (clothes & shoes)**
 - Seller dashboard for inventory and sales tracking
 - Seamless Sign Up / Sign In and order management
@@ -24,25 +20,33 @@ SolMart is a modern decentralized e-commerce platform where users can buy and se
 - **Next.js**
 - **TypeScript**
 - **Tailwind CSS**
-- **Solana Pay**
-- **@solana/wallet-adapter**
-- **Supabase**
-- **USDC on Solana Devnet**
+- **Stellar**
+- **@stellar/freighter-api**
+- **@stellar/stellar-sdk**
+- **XLM on Stellar Testnet**
 
 ## 📦 Getting Started
 
 ### 1️⃣ Clone the Repository
 ```
 bash
-git clone https://github.com/your-username/solmart.git
-cd solmart
+git clone https://github.com/your-username/orbita.git
+cd orbita
 ```
 2️⃣ Install Dependencies
 ```
 bash
 npm install
 ```
-3️⃣ Run the Development Server
+3️⃣ Configure Stellar Payments
+
+Create a `.env.local` file with the Stellar account that should receive payments:
+```
+NEXT_PUBLIC_MERCHANT_ADDRESS=G...your_stellar_public_key
+```
+The merchant account and each buyer's account must be funded on Testnet. Install the [Freighter](https://www.freighter.app/) browser extension, switch it to **Testnet**, and fund accounts with [Friendbot](https://laboratory.stellar.org/#account-creator?network=test).
+
+4️⃣ Run the Development Server
 ```
 bash
 Copy

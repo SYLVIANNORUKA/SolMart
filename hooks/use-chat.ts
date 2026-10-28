@@ -8,12 +8,12 @@ export interface ChatMessage {
 }
 
 const predefinedResponses = {
-  'connect wallet': 'To connect your Solana wallet, click the "Connect Wallet" button in the top right corner. We support Phantom, Solflare, and other Solana wallets.',
-  'how to buy': 'To purchase items on SolMart: \n1. Connect your Solana wallet\n2. Browse products and click on one you like\n3. Click "Add to Cart"\n4. Go to cart and click "Checkout"\n5. Confirm the transaction in your wallet',
-  'payment methods': 'We accept SOL (Solana) and USDC on the Solana network for all purchases.',
-  'shipping': 'Shipping information and tracking will be provided via email after your purchase is confirmed on the Solana blockchain.',
+  'connect wallet': 'To connect your Stellar wallet, click the "Connect Wallet" button in the top right corner. We support Freighter, the Stellar browser wallet.',
+  'how to buy': 'To purchase items on Orbita: \n1. Connect your Stellar wallet\n2. Browse products and click on one you like\n3. Click "Add to Cart"\n4. Go to cart and click "Checkout"\n5. Confirm the transaction in your wallet',
+  'payment methods': 'We accept XLM (Stellar Lumens) on the Stellar network for all purchases.',
+  'shipping': 'Shipping information and tracking will be provided via email after your purchase is confirmed on the Stellar blockchain.',
   'return policy': 'We have a 14-day return policy. Please contact our support team with your order details to initiate a return.',
-  'seller registration': 'To become a seller on SolMart:\n1. Connect your Solana wallet\n2. Go to the "Become a Seller" page\n3. Fill out the registration form\n4. Pay a small registration fee in SOL\n5. Start listing your products!',
+  'seller registration': 'To become a seller on Orbita:\n1. Connect your Stellar wallet\n2. Go to the "Become a Seller" page\n3. Fill out the registration form\n4. Pay a small registration fee in XLM\n5. Start listing your products!',
   'help': 'I can help you with:\n- Connecting your wallet\n- Making purchases\n- Payment methods\n- Shipping information\n- Returns\n- Seller registration\n\nJust ask me about any of these topics!',
 };
 

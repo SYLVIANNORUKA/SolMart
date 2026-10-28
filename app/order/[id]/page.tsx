@@ -1,14 +1,14 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import { useWallet } from "@solana/wallet-adapter-react"
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui"
+import { useWallet } from "@/components/wallet-provider"
+import { WalletMultiButton } from "@/components/wallet-provider"
 import { useAuthStore } from "@/lib/auth-store"
 import { AuthForm } from "@/components/auth-form"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { OrderStatus } from "@/components/order-status"
-import { formatSolPrice } from "@/lib/utils"
+import { formatPrice } from "@/lib/utils"
 import { ArrowLeft, ExternalLink } from "lucide-react"
 import Link from "next/link"
 
@@ -27,7 +27,7 @@ const orders = [
     estimatedDelivery: "May 18, 2023",
     transactionSignature: "5Ua4hPyS2VYsgEHVQxM756c8wLJYCjXvtXpPEpjVcLbXjPZ7JkSiUKMygUxmMpfjNVJw",
     shippingAddress: "123 Main St, Anytown, USA",
-    paymentMethod: "Solana Pay",
+    paymentMethod: "Stellar",
   },
   {
     id: "ORD-002",
@@ -42,7 +42,7 @@ const orders = [
     estimatedDelivery: "May 25, 2023",
     transactionSignature: "3xR7JkSiUKMygUxmMpfjNVJw5Ua4hPyS2VYsgEHVQxM756c8wLJYCjXvtXpPEpjVcLbXjPZ",
     shippingAddress: "456 Oak Ave, Somewhere, USA",
-    paymentMethod: "Solana Pay",
+    paymentMethod: "Stellar",
   },
   {
     id: "ORD-003",
@@ -56,7 +56,7 @@ const orders = [
     estimatedDelivery: "May 28, 2023",
     transactionSignature: "8wLJYCjXvtXpPEpjVcLbXjPZ7JkSiUKMygUxmMpfjNVJw5Ua4hPyS2VYsgEHVQxM756c",
     shippingAddress: "789 Pine Ln, Elsewhere, USA",
-    paymentMethod: "Solana Pay",
+    paymentMethod: "Stellar",
   },
 ]
 
@@ -72,7 +72,7 @@ export default function OrderDetailPage() {
     return (
       <div className="container py-16 max-w-md mx-auto text-center">
         <h1 className="text-2xl font-bold mb-6">Connect Your Wallet</h1>
-        <p className="text-muted-foreground mb-8">Please connect your Phantom wallet to view your order details.</p>
+        <p className="text-muted-foreground mb-8">Please connect your Freighter wallet to view your order details.</p>
         <WalletMultiButton className="!bg-primary hover:!bg-primary/90 rounded-md mx-auto !justify-center" />
       </div>
     )
@@ -146,8 +146,8 @@ export default function OrderDetailPage() {
                         <p className="text-sm text-muted-foreground">Quantity: {item.quantity}</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-medium">{formatSolPrice(item.price * item.quantity)}</p>
-                        <p className="text-sm text-muted-foreground">{formatSolPrice(item.price)} each</p>
+                        <p className="font-medium">{formatPrice(item.price * item.quantity)}</p>
+                        <p className="text-sm text-muted-foreground">{formatPrice(item.price)} each</p>
                       </div>
                     </div>
                   </li>
@@ -183,15 +183,15 @@ export default function OrderDetailPage() {
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Subtotal</span>
-                  <span>{formatSolPrice(order.total)}</span>
+                  <span>{formatPrice(order.total)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Network Fee</span>
-                  <span>~0.000005 SOL</span>
+                  <span>~0.00001 XLM</span>
                 </div>
                 <div className="border-t pt-2 mt-2 flex justify-between font-bold">
                   <span>Total</span>
-                  <span>{formatSolPrice(order.total)}</span>
+                  <span>{formatPrice(order.total)}</span>
                 </div>
               </div>
             </CardContent>
@@ -215,12 +215,12 @@ export default function OrderDetailPage() {
                     </p>
                     <Button variant="ghost" size="icon" className="h-6 w-6" asChild>
                       <a
-                        href={`https://explorer.solana.com/tx/${order.transactionSignature}?cluster=devnet`}
+                        href={`https://stellar.expert/explorer/testnet/tx/${order.transactionSignature}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         <ExternalLink className="h-4 w-4" />
-                        <span className="sr-only">View on Solana Explorer</span>
+                        <span className="sr-only">View on Stellar Expert</span>
                       </a>
                     </Button>
                   </div>

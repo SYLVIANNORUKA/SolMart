@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { formatSolPrice } from "@/lib/utils"
+import { formatPrice } from "@/lib/utils"
 import type { Product } from "@/lib/types"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -61,7 +61,7 @@ export function ProductCard({ product }: ProductCardProps) {
             Seller: {product.vendor_name || product.seller?.name || 'Unknown'}
             {product.seller_id && !product.vendor_name && !product.seller?.name && ` (ID: ${product.seller_id})`}
           </p>
-          <p className="font-medium text-primary">{formatSolPrice(product.price)}</p>
+          <p className="font-medium text-primary">{formatPrice(product.price)}</p>
         </div>
       </CardContent>
       <CardFooter className="p-4 pt-0">

@@ -1,18 +1,11 @@
 "use client"
 
 import Link from "next/link"
-import { useWallet } from "@solana/wallet-adapter-react"
+import { useWallet, WalletMultiButton } from "@/components/wallet-provider"
 import { ShoppingCart, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
-import dynamic from "next/dynamic"
-
-
-const WalletMultiButtonDynamic = dynamic(
-  () => import("@solana/wallet-adapter-react-ui").then(mod => mod.WalletMultiButton),
-  { ssr: false }
-)
 
 export function Navbar() {
   const { connected } = useWallet()
@@ -32,7 +25,7 @@ export function Navbar() {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="text-xl font-bold text-primary">SolMart</span>
+            <span className="text-xl font-bold text-primary">Orbita</span>
           </Link>
 
           <nav className="hidden md:flex gap-6">
@@ -53,7 +46,7 @@ export function Navbar() {
             </Button>
           </Link>
 
-          <WalletMultiButtonDynamic className="!bg-primary hover:!bg-primary/90 rounded-md h-9 !justify-center border border-primary/20 shadow-sm" />
+          <WalletMultiButton className="!bg-primary hover:!bg-primary/90 rounded-md h-9 !justify-center border border-primary/20 shadow-sm" />
 
           <Button
             variant="ghost"

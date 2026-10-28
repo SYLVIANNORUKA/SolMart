@@ -3,11 +3,11 @@
 import { useState, useEffect } from "react"
 import { useParams } from "next/navigation"
 import Image from "next/image"
-import { useWallet } from "@solana/wallet-adapter-react"
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui"
-import { formatSolPrice, getProductById } from "@/lib/utils"
+import { useWallet } from "@/components/wallet-provider"
+import { WalletMultiButton } from "@/components/wallet-provider"
+import { formatPrice, getProductById } from "@/lib/utils"
 import { useCartStore } from "@/lib/cart-store"
-import { useSolanaPay } from "@/lib/solana-pay"
+import { useStellarPay } from "@/lib/stellar-pay"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -22,7 +22,7 @@ export default function ProductPage() {
 
   const { connected } = useWallet()
   const { addItem } = useCartStore()
-  const { makePayment } = useSolanaPay()
+  const { makePayment } = useStellarPay()
   const { toast } = useToast()
 
   const [quantity, setQuantity] = useState(1)
@@ -165,7 +165,7 @@ export default function ProductPage() {
               </div>
               <span className="text-sm text-muted-foreground">{product.seller.rating.toFixed(1)}</span>
             </div>
-            <p className="text-2xl font-bold text-primary mt-2">{formatSolPrice(product.price)}</p>
+            <p className="text-2xl font-bold text-primary mt-2">{formatPrice(product.price)}</p>
           </div>
 
           <div>
@@ -199,7 +199,7 @@ export default function ProductPage() {
 
             <div className="space-y-2">
               <p className="text-sm font-medium">Total Price</p>
-              <p className="text-2xl font-bold text-primary">{formatSolPrice(totalPrice)}</p>
+              <p className="text-2xl font-bold text-primary">{formatPrice(totalPrice)}</p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
@@ -211,7 +211,7 @@ export default function ProductPage() {
               {connected ? (
                 <Button onClick={handleBuyNow} className="flex-1" disabled={isLoading}>
                   <Wallet className="mr-2 h-4 w-4" />
-                  {isLoading ? "Processing..." : "Buy with SOL"}
+                  {isLoading ? "Processing..." : "Buy with XLM"}
                 </Button>
               ) : (
                 <WalletMultiButton className="!bg-primary hover:!bg-primary/90 rounded-md flex-1 h-10 !justify-center" />
@@ -235,7 +235,7 @@ export default function ProductPage() {
               </div>
               <div>
                 <dt className="text-sm font-medium">Price</dt>
-                <dd className="text-sm text-muted-foreground">{formatSolPrice(product.price)}</dd>
+                <dd className="text-sm text-muted-foreground">{formatPrice(product.price)}</dd>
               </div>
               <div>
                 <dt className="text-sm font-medium">Seller</dt>
@@ -247,12 +247,12 @@ export default function ProductPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Solana Payment</CardTitle>
-            <CardDescription>Pay securely using Solana blockchain</CardDescription>
+            <CardTitle>Stellarment</CardTitle>
+            <CardDescription>Pay securely using Stellar blockchain</CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground mb-4">
-              SolMart uses Solana Pay for secure and fast transactions. Connect your Phantom wallet to make a purchase.
+              Orbita uses Stellar for secure and fast transactions. Connect your Freighter wallet to make a purchase.
             </p>
             <div className="space-y-2">
               <p className="text-sm font-medium">Benefits:</p>

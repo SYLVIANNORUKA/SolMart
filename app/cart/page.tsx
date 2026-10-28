@@ -3,15 +3,15 @@
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { useWallet } from "@solana/wallet-adapter-react"
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui"
+import { useWallet } from "@/components/wallet-provider"
+import { WalletMultiButton } from "@/components/wallet-provider"
 import { Trash2, Wallet, ShoppingBag } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { useCartStore } from "@/lib/cart-store"
-import { formatSolPrice } from "@/lib/utils"
-import { useSolanaPay } from "@/lib/solana-pay"
+import { formatPrice } from "@/lib/utils"
+import { useStellarPay } from "@/lib/stellar-pay"
 import { useToast } from "@/components/ui/use-toast"
 import { OrderService } from "@/lib/order-service"
 import { CreateOrderData } from "@/lib/types"
@@ -19,7 +19,7 @@ import { CreateOrderData } from "@/lib/types"
 export default function CartPage() {
   const { connected, publicKey } = useWallet()
   const { items, removeItem, updateQuantity, clearCart, getTotalPrice } = useCartStore()
-  const { makePayment } = useSolanaPay()
+  const { makePayment } = useStellarPay()
   const { toast } = useToast()
 
   const [isLoading, setIsLoading] = useState(false)
@@ -50,12 +50,12 @@ export default function CartPage() {
     try {
       // Create a memo for the transaction
       const itemsList = items.map((item) => `${item.product.name} x${item.quantity}`).join(", ")
-      const memo = `SolMart Purchase: ${itemsList}`
+      const memo = `Orbita Purchase: ${itemsList}`
 
       // Process the payment
-      const success = await makePayment(totalPrice, memo)
+      const txHash = await makePayment(totalPrice, memo)
 
-      if (success) {
+      if (txHash) {
         // Create order data
         const orderData: CreateOrderData = {
           user_wallet: publicKey?.toString() || "",
@@ -69,10 +69,10 @@ export default function CartPage() {
             vendor_name: item.product.vendor_name,
           })),
           total_amount: totalPrice,
-          transaction_signature: "", // Will be updated if we can get the signature
+          transaction_signature: txHash,
         }
 
-        // Store order in Supabase
+        // Store order
         const order = await OrderService.createOrder(orderData)
 
         if (order) {
@@ -123,7 +123,7 @@ export default function CartPage() {
                   <Link href={`/product/${item.product.id}`} className="font-medium hover:underline line-clamp-1">
                     {item.product.name}
                   </Link>
-                  <p className="text-sm text-muted-foreground">{formatSolPrice(item.product.price)} each</p>
+                  <p className="text-sm text-muted-foreground">{formatPrice(item.product.price)} each</p>
                   <div className="flex items-center gap-4 mt-2">
                     <div className="flex items-center">
                       <Button
@@ -163,7 +163,7 @@ export default function CartPage() {
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <p className="font-medium">{formatSolPrice(item.product.price * item.quantity)}</p>
+                  <p className="font-medium">{formatPrice(item.product.price * item.quantity)}</p>
                 </div>
               </div>
             ))}
@@ -176,17 +176,17 @@ export default function CartPage() {
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Subtotal</span>
-                  <span>{formatSolPrice(totalPrice)}</span>
+                  <span>{formatPrice(totalPrice)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Network Fee</span>
-                  <span>~0.000005 SOL</span>
+                  <span>~0.00001 XLM</span>
                 </div>
               </div>
               <Separator />
               <div className="flex justify-between font-bold">
                 <span>Total</span>
-                <span>{formatSolPrice(totalPrice)}</span>
+                <span>{formatPrice(totalPrice)}</span>
               </div>
 
               {connected ? (
@@ -197,13 +197,13 @@ export default function CartPage() {
                   disabled={isLoading || items.length === 0}
                 >
                   <Wallet className="mr-2 h-4 w-4" />
-                  {isLoading ? "Processing..." : "Checkout with SOL"}
+                  {isLoading ? "Processing..." : "Checkout with XLM"}
                 </Button>
               ) : (
                 <WalletMultiButton className="!bg-primary hover:!bg-primary/90 rounded-md w-full !justify-center h-11" />
               )}
 
-              <p className="text-xs text-muted-foreground text-center">Powered by Solana Pay on Devnet</p>
+              <p className="text-xs text-muted-foreground text-center">Powered by Stellar on Testnet</p>
             </div>
           </div>
         </div>

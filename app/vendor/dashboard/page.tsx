@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useWallet } from "@solana/wallet-adapter-react"
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui"
+import { useWallet } from "@/components/wallet-provider"
+import { WalletMultiButton } from "@/components/wallet-provider"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -113,7 +113,7 @@ export default function VendorDashboardPage() {
         </div>
         <h1 className="text-2xl font-bold mb-6">Not a Vendor</h1>
         <p className="text-muted-foreground mb-8">
-          You are not registered as a vendor. Register to start selling on SolMart.
+          You are not registered as a vendor. Register to start selling on Orbita.
         </p>
         <Button asChild>
           <Link href="/vendor/register">Register as Vendor</Link>

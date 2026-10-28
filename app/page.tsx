@@ -67,11 +67,11 @@ export default function Home() {
               </div>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-                Shop with <span className="text-primary">SOL</span> in our Decentralized Marketplace
+                Shop with <span className="text-primary">XLM</span> in our Decentralized Marketplace
               </h1>
 
               <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0">
-                SolMart brings the power of Solana blockchain to everyday shopping. Connect your wallet and experience
+                Orbita brings the power of Stellar blockchain to everyday shopping. Connect your wallet and experience
                 the future of commerce.
               </p>
 
@@ -108,7 +108,7 @@ export default function Home() {
                 <div className="aspect-[4/3] relative">
                   <Image
                     src="https://images.unsplash.com/photo-1607083206968-13611e3d76db"
-                    alt="SolMart Shopping Experience"
+                    alt="Orbita Shopping Experience"
                     fill
                     className="object-cover"
                     priority
@@ -276,7 +276,7 @@ export default function Home() {
 
       <section id="how-it-works" className="py-12 md:py-16 bg-muted/50">
         <div className="container px-4 md:px-6">
-          <h2 className="text-2xl font-bold tracking-tight md:text-3xl mb-8 text-center">How SolMart Works</h2>
+          <h2 className="text-2xl font-bold tracking-tight md:text-3xl mb-8 text-center">How Orbita Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="flex flex-col items-center text-center">
               <div className="bg-primary text-primary-foreground p-4 rounded-full mb-4">
@@ -293,7 +293,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-bold mb-2">Connect Wallet</h3>
               <p className="text-muted-foreground">
-                Connect your Phantom wallet to enable secure and fast transactions on the Solana blockchain.
+                Connect your Freighter wallet to enable secure and fast transactions on the Stellar blockchain.
               </p>
             </div>
             <div className="flex flex-col items-center text-center">
@@ -302,7 +302,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-bold mb-2">Secure Purchase</h3>
               <p className="text-muted-foreground">
-                Complete your purchase with SOL tokens. All transactions are secure and recorded on the blockchain.
+                Complete your purchase with XLM tokens. All transactions are secure and recorded on the blockchain.
               </p>
             </div>
           </div>

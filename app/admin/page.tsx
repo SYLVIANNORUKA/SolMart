@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useWallet } from "@solana/wallet-adapter-react"
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui"
+import { useWallet } from "@/components/wallet-provider"
+import { WalletMultiButton } from "@/components/wallet-provider"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -12,7 +12,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { OrderStatus } from "@/components/order-status"
-import { formatSolPrice } from "@/lib/utils"
+import { formatPrice } from "@/lib/utils"
 import { OrderService } from "@/lib/order-service"
 import { Order } from "@/lib/types"
 import { Search, Filter, Package, Users, DollarSign, Clock } from "lucide-react"
@@ -308,7 +308,7 @@ export default function AdminPage() {
                     </CardDescription>
                   </div>
                   <div className="text-right">
-                    <p className="font-medium">{formatSolPrice(order.total_amount)}</p>
+                    <p className="font-medium">{formatPrice(order.total_amount)}</p>
                     <p className="text-xs text-muted-foreground">{order.items.length} items</p>
                   </div>
                 </div>
@@ -331,7 +331,7 @@ export default function AdminPage() {
                           <p>{item.product_name}</p>
                           <p className="text-sm text-muted-foreground">Quantity: {item.quantity}</p>
                         </div>
-                        <p className="font-medium">{formatSolPrice(item.price * item.quantity)}</p>
+                        <p className="font-medium">{formatPrice(item.price * item.quantity)}</p>
                       </li>
                     ))}
                   </ul>

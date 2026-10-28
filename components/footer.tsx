@@ -6,8 +6,8 @@ export function Footer() {
       <div className="container py-8 md:py-12">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div className="space-y-4">
-            <h3 className="text-lg font-medium">SolMart</h3>
-            <p className="text-sm text-muted-foreground">A decentralized supermarket built on Solana blockchain.</p>
+            <h3 className="text-lg font-medium">Orbita</h3>
+            <p className="text-sm text-muted-foreground">A decentralized supermarket built on Stellar blockchain.</p>
           </div>
           <div className="space-y-4">
             <h3 className="text-sm font-medium">Shop</h3>
@@ -71,7 +71,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-8 border-t pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} SolMart. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Orbita. All rights reserved.</p>
         </div>
       </div>
     </footer>

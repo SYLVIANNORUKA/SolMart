@@ -110,7 +110,7 @@ export function ChatAssistant() {
                     <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center">
                       <Bot className="h-4 w-4 text-primary" />
                     </div>
-                    <CardTitle className="text-lg">SolMart Assistant</CardTitle>
+                    <CardTitle className="text-lg">Orbita Assistant</CardTitle>
                   </div>
                   <div className="flex items-center space-x-1">
                     {messages.length > 0 && (
@@ -142,7 +142,7 @@ export function ChatAssistant() {
                       <div className="space-y-2">
                         <Bot className="h-12 w-12 text-primary/50 mx-auto" />
                         <p className="text-sm text-muted-foreground">
-                          Hi! I'm your SolMart shopping assistant. I can help you connect your Solana wallet, 
+                          Hi! I'm your Orbita shopping assistant. I can help you connect your Stellar wallet, 
                           find products, or answer questions about our Web3 marketplace.
                         </p>
                         <p className="text-xs text-muted-foreground">

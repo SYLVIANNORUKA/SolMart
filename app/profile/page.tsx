@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { useWallet } from "@solana/wallet-adapter-react"
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui"
+import { useWallet } from "@/components/wallet-provider"
+import { WalletMultiButton } from "@/components/wallet-provider"
 import { useAuthStore } from "@/lib/auth-store"
 import { AuthForm } from "@/components/auth-form"
 import { Button } from "@/components/ui/button"
@@ -77,7 +77,7 @@ export default function ProfilePage() {
     return (
       <div className="container py-16 max-w-md mx-auto text-center">
         <h1 className="text-2xl font-bold mb-6">Connect Your Wallet</h1>
-        <p className="text-muted-foreground mb-8">Please connect your Phantom wallet to access your profile.</p>
+        <p className="text-muted-foreground mb-8">Please connect your Freighter wallet to access your profile.</p>
         <WalletMultiButton className="!bg-primary hover:!bg-primary/90 rounded-md mx-auto !justify-center" />
       </div>
     )
@@ -220,7 +220,7 @@ export default function ProfilePage() {
                       className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                       disabled
                     >
-                      <option value="sol">SOL</option>
+                      <option value="xlm">XLM</option>
                     </select>
                   </div>
                 </CardContent>
@@ -238,7 +238,7 @@ export default function ProfilePage() {
                           <CardDescription>Placed on {order.date}</CardDescription>
                         </div>
                         <div className="text-right">
-                          <p className="font-medium">{order.total.toFixed(3)} SOL</p>
+                          <p className="font-medium">{order.total.toFixed(3)} XLM</p>
                           <p className="text-xs text-muted-foreground">{order.items.length} items</p>
                         </div>
                       </div>
@@ -258,7 +258,7 @@ export default function ProfilePage() {
                               <span>
                                 {item.name} x{item.quantity}
                               </span>
-                              <span>{item.price.toFixed(3)} SOL</span>
+                              <span>{item.price.toFixed(3)} XLM</span>
                             </li>
                           ))}
                         </ul>
@@ -297,14 +297,14 @@ export default function ProfilePage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-medium">Connected Wallet</p>
-                      <p className="text-sm text-muted-foreground">Phantom Wallet</p>
+                      <p className="text-sm text-muted-foreground">Freighter wallet</p>
                     </div>
                     <WalletMultiButton className="!bg-primary hover:!bg-primary/90 rounded-md" />
                   </div>
                   <div className="pt-4">
                     <p className="text-sm text-muted-foreground">
-                      Your wallet is connected to the Solana Devnet. All transactions are simulated and do not use real
-                      SOL.
+                      Your wallet is connected to the Stellar Testnet. All transactions are simulated and do not use real
+                      XLM.
                     </p>
                   </div>
                 </CardContent>

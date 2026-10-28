@@ -1,189 +1,49 @@
-import { supabase } from './supabase'
 import { Order, CreateOrderData } from './types'
 
+// TODO: connect these methods to the backend once it is built.
+// Until then they return empty results so the UI keeps working.
 export class OrderService {
   // Create a new order
   static async createOrder(orderData: CreateOrderData): Promise<Order | null> {
-    try {
-      const { data, error } = await supabase
-        .from('orders')
-        .insert({
-          user_wallet: orderData.user_wallet,
-          user_email: orderData.user_email,
-          items: orderData.items,
-          total_amount: orderData.total_amount,
-          status: 'pending',
-          transaction_signature: orderData.transaction_signature,
-          shipping_address: orderData.shipping_address,
-          notes: orderData.notes,
-        })
-        .select()
-        .single()
-
-      if (error) {
-        console.error('Error creating order:', error)
-        return null
-      }
-
-      return data
-    } catch (error) {
-      console.error('Error creating order:', error)
-      return null
-    }
+    return null
   }
 
   // Get orders for a specific user wallet
   static async getUserOrders(userWallet: string): Promise<Order[]> {
-    try {
-      const { data, error } = await supabase
-        .from('orders')
-        .select('*')
-        .eq('user_wallet', userWallet)
-        .order('created_at', { ascending: false })
-
-      if (error) {
-        console.error('Error fetching user orders:', error)
-        return []
-      }
-
-      return data || []
-    } catch (error) {
-      console.error('Error fetching user orders:', error)
-      return []
-    }
+    return []
   }
 
-  // Get all orders (for admin)
+  // Get all orders (admin)
   static async getAllOrders(): Promise<Order[]> {
-    try {
-      const { data, error } = await supabase
-        .from('orders')
-        .select('*')
-        .order('created_at', { ascending: false })
-
-      if (error) {
-        console.error('Error fetching all orders:', error)
-        return []
-      }
-
-      return data || []
-    } catch (error) {
-      console.error('Error fetching all orders:', error)
-      return []
-    }
+    return []
   }
 
-  // Get a specific order by ID
+  // Get a single order by ID
   static async getOrderById(orderId: string): Promise<Order | null> {
-    try {
-      const { data, error } = await supabase
-        .from('orders')
-        .select('*')
-        .eq('id', orderId)
-        .single()
-
-      if (error) {
-        console.error('Error fetching order:', error)
-        return null
-      }
-
-      return data
-    } catch (error) {
-      console.error('Error fetching order:', error)
-      return null
-    }
+    return null
   }
 
   // Update order status
   static async updateOrderStatus(orderId: string, status: Order['status']): Promise<boolean> {
-    try {
-      const { error } = await supabase
-        .from('orders')
-        .update({ 
-          status,
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', orderId)
-
-      if (error) {
-        console.error('Error updating order status:', error)
-        return false
-      }
-
-      return true
-    } catch (error) {
-      console.error('Error updating order status:', error)
-      return false
-    }
+    return false
   }
 
   // Update order with tracking information
   static async updateOrderTracking(
-    orderId: string, 
-    trackingNumber: string, 
+    orderId: string,
+    trackingNumber: string,
     estimatedDelivery: string
   ): Promise<boolean> {
-    try {
-      const { error } = await supabase
-        .from('orders')
-        .update({ 
-          tracking_number: trackingNumber,
-          estimated_delivery: estimatedDelivery,
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', orderId)
-
-      if (error) {
-        console.error('Error updating order tracking:', error)
-        return false
-      }
-
-      return true
-    } catch (error) {
-      console.error('Error updating order tracking:', error)
-      return false
-    }
+    return false
   }
 
-  // Search orders (for admin)
+  // Search orders by ID, wallet, or email
   static async searchOrders(query: string): Promise<Order[]> {
-    try {
-      const { data, error } = await supabase
-        .from('orders')
-        .select('*')
-        .or(`id.ilike.%${query}%,user_wallet.ilike.%${query}%,user_email.ilike.%${query}%`)
-        .order('created_at', { ascending: false })
-
-      if (error) {
-        console.error('Error searching orders:', error)
-        return []
-      }
-
-      return data || []
-    } catch (error) {
-      console.error('Error searching orders:', error)
-      return []
-    }
+    return []
   }
 
   // Get orders by status
   static async getOrdersByStatus(status: Order['status']): Promise<Order[]> {
-    try {
-      const { data, error } = await supabase
-        .from('orders')
-        .select('*')
-        .eq('status', status)
-        .order('created_at', { ascending: false })
-
-      if (error) {
-        console.error('Error fetching orders by status:', error)
-        return []
-      }
-
-      return data || []
-    } catch (error) {
-      console.error('Error fetching orders by status:', error)
-      return []
-    }
+    return []
   }
-} 
+}
